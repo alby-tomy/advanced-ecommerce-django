@@ -1,72 +1,71 @@
-{%extends 'layout/main.html'%}
-{%load static%}
+{% extends 'layout/main.html' %}
+{% load static %}
 
-
-{%block css%}
-<style>
-
+{% block css %}
+  <style>
     .login-container {
-        width: 25%;
-        margin: 3% 3% 3% 40%;
-        padding: 2%;
-        border: 1px solid #ccc;
-        border-radius: 5px;
+      width: 25%;
+      margin: 3% 3% 3% 40%;
+      padding: 2%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
-
+    
     .form-group {
-        margin-bottom: 10px;
+      margin-bottom: 10px;
     }
-
+    
     label {
-        display: block;
-        margin-bottom: 5px;
+      display: block;
+      margin-bottom: 5px;
     }
-
-    input[type="text"],
-    input[type="password"] {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
+    
+    input[type='text'],
+    input[type='password'] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
-
+    
     button {
-        width: 100%;
-        padding: 10px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
-
+    
     button:hover {
-        background-color: #0056b3;
+      background-color: #0056b3;
     }
-
+    
     #error-message {
-        color: red;
-        margin-top: 10px;
+      color: red;
+      margin-top: 10px;
     }
-</style>
-{%endblock css%}
-{%block body%}
-
-<div class="login-container">
+  </style>
+{% endblock %}
+{% block body %}
+  <div class="login-container">
     <h2>Login</h2>
-    <form id="login-form">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-        </div>
-        <button type="submit">Login</button>
+    <form id="login-form" action="#" method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+      <button type="submit">Login</button>
     </form>
+    {% for message in messages %}
+      <h5 style="color: red;">{{ message }}</h5>
+    {% endfor %}
     <div id="error-message"></div>
-</div>
-
-
-{%endblock body%}
+  </div>
+{% endblock %}
