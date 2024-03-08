@@ -6,3 +6,9 @@ def index(request):
 
 def collections(request):
     return render(request,'collections.html')
+
+def loginn(request):
+    return render(request,'login.html')
+
+def register(request):
+    return render(request,'register.html')

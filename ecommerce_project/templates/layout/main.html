@@ -23,7 +23,13 @@
     <link href="{%static 'css/style.css'%}" rel="stylesheet" />
     <!-- responsive style -->
     <link href="{%static 'css/responsive.css'%}" rel="stylesheet" />
+
+
 </head>
+
+{%block css%}
+
+{%endblock css%}
 
 <body>
     <div class="hero_area">
@@ -35,7 +41,7 @@
         <!-- end slider section -->
     </div>
 
-    
+
     {%block body%}
 
 
@@ -171,7 +177,7 @@
     <!-- footer start -->
     {%include 'layout/footer.html'%}
     <!-- footer end -->
-    
+
     <!-- jQery -->
     <script src="{%static 'js/jquery-3.4.1.min.js'%}"></script>
     <!-- popper js -->
