@@ -24,7 +24,7 @@
               <div class="detail-box">
                 <h5>{{ product.name }}</h5>
                 <h6>
-                    {{product.selling_price}}
+                    {{product.selling_price}}/-
                  </h6>
               </div>
             </div>
@@ -38,7 +38,7 @@
             <a href="?page={{ products.previous_page_number }}">previous</a>
           {% endif %}
 
-          <span class="current">Page {{ products.number }} of {{ products.paginator.num_pages }}.</span>
+          <span class="current">Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
           
 
           {% if products.has_next %}

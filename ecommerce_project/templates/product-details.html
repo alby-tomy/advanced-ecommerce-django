@@ -75,7 +75,7 @@
                 <b>Out of Stock</b>
               </p>
             {% else %}
-              <a class="btn btn-secondary" href="#">Add to Cart <i class="fa-solid fa-cart-shopping"></i></a>
+              <a class="btn btn-secondary" href="{% url 'cart:add-to-cart' product.id %}">Add to Cart <i class="fa-solid fa-cart-shopping"></i></a>
             {% endif %}
           </div>
         </div>
@@ -83,17 +83,5 @@
     </div>
   </section>
 
-  <script>
-    const images = document.querySelectorAll('.product-image')
-    images.forEach((image) => {
-      image.addEventListener('mousemove', (e) => {
-        const { left, top, width, height } = image.getBoundingClientRect()
-        const x = e.clientX - left
-        const y = e.clientY - top
-        const translateX = (x / width) * 150
-        const translateY = (y / height) * 150
-        image.style.transformOrigin = `${translateX}% ${translateY}%`
-      })
-    })
-  </script>
+
 {% endblock %}

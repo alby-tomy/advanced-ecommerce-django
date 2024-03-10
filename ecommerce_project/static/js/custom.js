@@ -62,6 +62,6 @@ function handleImageMagnification() {
             magnify.style.backgroundSize = `${image.width * 2}px ${image.height * 2}px`;
             magnify.style.backgroundPosition = `-${translateX}px -${translateY}px`;
         });
-    });
+    });s
 }
 handleImageMagnification();
