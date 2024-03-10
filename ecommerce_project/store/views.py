@@ -12,25 +12,30 @@ def index(request):
 
 
 @login_required(login_url='/login')
-def collections(request,category_slug):
+def collections(request):
     categories = Category.objects.filter(status=True)
     return render(request, 'collections.html',{'categories':categories})
 
 
-def category_details(request, category_slug):
-    category = get_object_or_404(Category, category_slug)
-    product_list = Product.onjects.filter(category = category_page, available=True)
-    
-    paginator = Paginator(product_list,6)
-    page = request.GET.get('page')
-    
-    try:
-        products = paginator.page(page)
-    except PageNotAnInteger:
-        products = paginator.page(1)
-        
-    return render(request, 'category_detail.html',{'category':category,'products':products})
 
+
+def category_details(request, category_slug):
+    #retrive the category objects based on th eprovided slug
+    category = get_object_or_404(Category,slug= category_slug)
+    
+    #fecth all the products under the specific category
+    products = category.product_set.all() #assuming 'product_set' is the related name in your Product model
+    
+    #render the category details template with the category and product data
+    return render(request, 'category-details.html',{'category':category, 'products':products})
+
+
+
+def product_details(request, category_slug, product_slug):
+    
+    products = get_object_or_404(Product,category__slug=category_slug, slug= product_slug)
+    return render(request,'product.html',{'products':products})
+    
 
 def loginn(request):
     if request.method == 'POST':
