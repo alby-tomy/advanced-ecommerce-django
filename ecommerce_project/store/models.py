@@ -17,7 +17,7 @@ class Category(models.Model):
         return self.name
     
     def get_url(self):
-        return reverse('e_commerceApp:products_by_cat', args=[self.slug])
+        return reverse('store:products_by_category', args=[self.slug])
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -40,4 +40,4 @@ class Product(models.Model):
         return self.name
     
     def get_url(self):
-        return reverse('e_commerceApp:proDetailName', args=[self.category.slug,self.slug])
+        return reverse('store:proDetailName', args=[self.category.slug,self.slug])

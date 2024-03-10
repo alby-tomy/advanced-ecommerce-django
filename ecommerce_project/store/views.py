@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django .contrib.auth.models import User,auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Category, Product
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 def index(request):
@@ -11,11 +12,24 @@ def index(request):
 
 
 @login_required(login_url='/login')
-def collections(request):
-    category = Category.objects.filter(status=0)
-    
-    return render(request,'collections.html',{"category":category})
+def collections(request,category_slug):
+    categories = Category.objects.filter(status=True)
+    return render(request, 'collections.html',{'categories':categories})
 
+
+def category_details(request, category_slug):
+    category = get_object_or_404(Category, category_slug)
+    product_list = Product.onjects.filter(category = category_page, available=True)
+    
+    paginator = Paginator(product_list,6)
+    page = request.GET.get('page')
+    
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+        
+    return render(request, 'category_detail.html',{'category':category,'products':products})
 
 
 def loginn(request):
