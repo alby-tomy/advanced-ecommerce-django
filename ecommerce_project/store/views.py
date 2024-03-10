@@ -22,20 +22,32 @@ def collections(request):
 def category_details(request, category_slug):
     #retrive the category objects based on th eprovided slug
     category = get_object_or_404(Category,slug= category_slug)
+    product_list = Product.objects.filter(category=category)
     
-    #fecth all the products under the specific category
-    products = category.product_set.all() #assuming 'product_set' is the related name in your Product model
+    paginator = Paginator(product_list,6)
+    page = request.GET.get('page')
     
-    #render the category details template with the category and product data
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+            #If page is not an interget, deliver first page
+            products = paginator.page(1)
+    except EmptyPage:
+        #If page is out of range (e.g 9999), deliver last page of result
+        products = paginator.page(paginator.num_pages)
+        
+    
     return render(request, 'category-details.html',{'category':category, 'products':products})
 
 
 
 def product_details(request, category_slug, product_slug):
-    
-    products = get_object_or_404(Product,category__slug=category_slug, slug= product_slug)
-    return render(request,'product.html',{'products':products})
-    
+    try:
+        products = Product.objects.filter(category__slug=category_slug, slug=product_slug)
+    except Exception as e:
+        raise e
+    return render(request,'product-details.html',{'products':products})
+
 
 def loginn(request):
     if request.method == 'POST':

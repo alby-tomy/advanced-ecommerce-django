@@ -29,7 +29,8 @@ class Product(models.Model):
     original_price = models.DecimalField(max_digits=10, decimal_places=2)
     selling_price = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.BooleanField(default=True)  # Checkbox for status
-    trending = models.BooleanField(default=False)  # Checkbox for trending
+    trending = models.BooleanField(default=False)
+    available = models.BooleanField(default=True)# Checkbox for trending
 
     class Meta:
         ordering = ('name',)

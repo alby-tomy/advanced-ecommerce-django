@@ -4,10 +4,10 @@
 
 {% block body %}
   <!-- product section -->
-  <section class="product_section layout_padding">
+<section class="product_section layout_padding">
     <div class="container">
       <div class="heading_container heading_center">
-        <h2>{{category.name}}</span></h2>
+        <h2>{{ category.name }}</h2>
       </div>
       <div class="row">
         {% for product in products %}
@@ -15,7 +15,7 @@
             <div class="box">
               <div class="option_container">
                 <div class="options">
-                  <a href="{% url 'store:product_details' category.slug product.slug%}" class="option2">View</a>
+                  <a href="{% url 'store:product_details' category.slug product.slug %}" class="option2">View</a>
                 </div>
               </div>
               <div class="img-box">
@@ -28,8 +28,26 @@
           </div>
         {% endfor %}
       </div>
-      <div class="btn-box">
-        <a href="">View All products</a>
+      <div class="pagination justify-content-center">
+        <span class="step-links">
+          {% if products.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ products.previous_page_number }}">previous</a>
+          {% endif %}
+  
+          <span class="current">
+            Page {{ products.number }} of {{ products.paginator.num_pages }}.
+          </span>
+  
+          {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}">next</a>
+            {% if products.paginator.num_pages > 1 %}
+                {% if products.number > 1 %}
+                    <a href="?page={{ products.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            {% endif %}
+          {% endif %}
+        </span>
       </div>
     </div>
   </section>

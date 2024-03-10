@@ -49,3 +49,8 @@ button:hover {
     color: red;
     margin-top: 10px;
 }
+
+.pagination{
+    width: 100%;
+    text-align: center;
+  }
