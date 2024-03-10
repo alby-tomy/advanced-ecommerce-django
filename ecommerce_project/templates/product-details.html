@@ -1,33 +1,99 @@
 {% extends 'layout/main.html' %}
 {% load static %}
 
+{% block css %}
+  <style>
+    .image-container {
+      position: relative;
+      display: inline-block;
+      margin-top: 50px; /* Adjust the margin to center vertically */
+      margin-bottom: 50px; /* Adjust the margin to center vertically */
+  }
+  
+  .product-image {
+      display: block;
+      max-width: 100%;
+      height: auto;
+  }
+  
+  .magnify {
+      position: absolute;
+      width: 200px; /* Adjust the size of the magnified image */
+      height: 200px; /* Adjust the size of the magnified image */
+      border: 2px solid #000;
+      background: #fff;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+  }
+  
+  .image-container:hover .magnify {
+      opacity: 1;
+  }
+    .image-container:hover .product-image {
+      transform: scale(1.1);
+    }
+    
+    .image-container:hover .magnify {
+      opacity: 1;
+    }
+  </style>
+{% endblock %}
+
 {% block body %}
   <!-- product section -->
-<!-- product section -->
-<section class="product_section layout_padding">
-  <div class="container">
-    <div class="heading_container heading_center">
-      <h2>{{ products.name }}</h2>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 col-md-4 col-lg-4">
-        <div class="box">
-          <div class="option_container">
-            <div class="options">
-              <a href="" class="option1">{{ products.name }}</a>
-              <a href="" class="option2">Buy Now</a>
-            </div>
+  <!-- product section -->
+  <section class="product_section layout_padding">
+    {% comment %} <div class="row product-row-class">
+      <div class="mx-auto">
+        <p>
+          <a href="{% url 'e_commerceApp:allProdCatName' %}">Home</a> | <a href="{{ product.category.get_url }}">{{ product.category }}</a> | {{ product.name }}
+        </p>
+      </div>
+    </div> {% endcomment %}
+    <div class="container">
+      <br />
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+          <div class="image-container d-flex align-items-center justify-content-center">
+            <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}" />
           </div>
-          <div class="img-box">
-            <img src="{{ products.image.url }}" alt="" />
-          </div>
-          <div class="detail-box">
-            <h5>{{ products.name }}</h5>
-            <!-- Add more product details here -->
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+          <div>
+            <h1 class="product-title">{{ product.name }}</h1>
+            <p>
+              Original price : <span style="text-decoration: line-through;">{{ product.original_price }}/-</span>
+            </p>
+            <p>Selling price : {{ product.selling_price }}/-</p>
+            <p>Quantity : {{ product.quantity }}</p>
+            <p class="my-title">Product Description</p>
+            <p class="text-justify product-text">{{ product.description }}</p>
+            {% if product.stock <= 0 %}
+              <p class="text-justify">
+                <b>Out of Stock</b>
+              </p>
+            {% else %}
+              <a class="btn btn-secondary" href="#">Add to Cart <i class="fa-solid fa-cart-shopping"></i></a>
+            {% endif %}
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-{% endblock body%}
+  </section>
+
+  <script>
+    const images = document.querySelectorAll('.product-image')
+    images.forEach((image) => {
+      image.addEventListener('mousemove', (e) => {
+        const { left, top, width, height } = image.getBoundingClientRect()
+        const x = e.clientX - left
+        const y = e.clientY - top
+        const translateX = (x / width) * 150
+        const translateY = (y / height) * 150
+        image.style.transformOrigin = `${translateX}% ${translateY}%`
+      })
+    })
+  </script>
+{% endblock %}

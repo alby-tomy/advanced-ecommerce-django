@@ -44,3 +44,24 @@ function myMap() {
     };
     var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 }
+
+
+function handleImageMagnification() {
+    const images = document.querySelectorAll('.product-image');
+    images.forEach((image) => {
+        image.addEventListener('mousemove', (e) => {
+            const { left, top } = image.getBoundingClientRect();
+            const x = e.clientX - left;
+            const y = e.clientY - top;
+            const offsetX = 100; // Half the width of the magnify box
+            const offsetY = 100; // Half the height of the magnify box
+            const translateX = x - offsetX;
+            const translateY = y - offsetY;
+            const magnify = image.nextElementSibling;
+            magnify.style.backgroundImage = `url('${image.src}')`;
+            magnify.style.backgroundSize = `${image.width * 2}px ${image.height * 2}px`;
+            magnify.style.backgroundPosition = `-${translateX}px -${translateY}px`;
+        });
+    });
+}
+handleImageMagnification();

@@ -42,11 +42,8 @@ def category_details(request, category_slug):
 
 
 def product_details(request, category_slug, product_slug):
-    try:
-        products = Product.objects.filter(category__slug=category_slug, slug=product_slug)
-    except Exception as e:
-        raise e
-    return render(request,'product-details.html',{'products':products})
+    product = get_object_or_404(Product, category__slug=category_slug, slug=product_slug)
+    return render(request, 'product-details.html', {'product': product})
 
 
 def loginn(request):
