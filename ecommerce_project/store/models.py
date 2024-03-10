@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(upload_to='categories/')  # Assuming you have an "categories" directory in your MEDIA_ROOT
     status = models.BooleanField(default=True)  # Checkbox for status
@@ -21,7 +21,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(upload_to='products/')  # Assuming you have an "products" directory in your MEDIA_ROOT
     description = models.TextField()

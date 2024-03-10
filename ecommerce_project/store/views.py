@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django .contrib.auth.models import User,auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .models import Category, Product
 
 # Create your views here.
 def index(request):
@@ -11,7 +12,9 @@ def index(request):
 
 @login_required(login_url='/login')
 def collections(request):
-    return render(request,'collections.html')
+    category = Category.objects.filter(status=0)
+    
+    return render(request,'collections.html',{"category":category})
 
 
 
