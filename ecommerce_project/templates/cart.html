@@ -40,47 +40,47 @@
                     {% for cart_item in cart_items %}
                     <tr>
                         <td>
-                            <a href="cart_item.product.get_absolute_url">
-                                <img    src="{{cart_item.product.image.url}}" alt="" style="width: 100px;height: 100px;"
-                                    class="float-left rounded custom-image">
+                            <a href="{{ cart_item.product.get_url }}">
+                                <img src="{{ cart_item.product.image.url }}" alt="" style="width: 100px;height: 100px;" class="float-left rounded custom-image">
                             </a>
                         </td>
                         <td class="custom2-box">
-                            {{cart_item.product.name}}
+                            {{ cart_item.product.name }}
                             <br>
-                            SKU : {{cart_item.product.id}}
+                            SKU: {{ cart_item.product.id }}
                             <br>
-                            Price : {{cart_item.product.price}} /-
+                            Price: {{ cart_item.product.selling_price }} /- <!-- Displaying the product price -->
                             <br>
-                            Qty : {{cart_item.quantity}} x {{cart_item}}/-
+                            Qty: {{ cart_item.quantity }} x {{ cart_item }} /-
                         </td>
                         <td>
-                            {{cart_item.sub_total}}
+                            {{ cart_item.sub_total }}
                         </td>
-                        {% if cart_item.quantity < cart_item.product.stock %} <td>
+                        {% if cart_item.quantity < cart_item.product.stock %}
+                        <td>
                             <a href="{% url 'cart:add-to-cart' cart_item.product.id %}" class="custom-a">
                                 <i class="fa-solid fa-plus custom-icon"></i>
                             </a>
                             &nbsp;
-                            <a href="{% url 'cart:cart-remove' cart_item.product.id %}" class="custom-a">
+                            <a href="{% url 'cart:cart-remove' product_id=cart_item.product.id %}" class="custom-a"> <!-- Corrected URL pattern -->
                                 <i class="fa-solid fa-minus custom-icon"></i>
                             </a>
                             &nbsp;
                             <a href="{% url 'cart:cart-delete' cart_item.product.id %}" class="custom-a">
                                 <i class="fa-solid fa-trash custom-icon"></i>
                             </a>
-                            </td>
-                            {% else %}
-                            <td>
-                                <a href="{% url 'cart:cart-remove' cart_item.product.id %}" class="custom-a">
-                                    <i class="fa-solid fa-minus custom-icon"></i>
-                                </a>
-                                &nbsp;
-                                <a href="{% url 'cart:cart-delete' cart_item.product.id %}" class="custom-a">
-                                    <i class="fa-solid fa-trash custom-icon"></i>
-                                </a>
-                            </td>
-                            {% endif %}
+                        </td>
+                        {% else %}
+                        <td>
+                            <a href="{% url 'cart:cart-remove' product_id=cart_item.product.id %}" class="custom-a"> <!-- Corrected URL pattern -->
+                                <i class="fa-solid fa-minus custom-icon"></i>
+                            </a>
+                            &nbsp;
+                            <a href="{% url 'cart:cart-delete' cart_item.product.id %}" class="custom-a">
+                                <i class="fa-solid fa-trash custom-icon"></i>
+                            </a>
+                        </td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>

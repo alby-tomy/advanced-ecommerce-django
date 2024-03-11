@@ -5,8 +5,8 @@ class Category(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(upload_to='categories/')  # Assuming you have an "categories" directory in your MEDIA_ROOT
-    status = models.BooleanField(default=True)  # Checkbox for status
-    trending = models.BooleanField(default=False)  # Checkbox for trending
+    description = models.TextField(blank=True)
+    status = models.BooleanField(default = True)
 
     class Meta:
         ordering = ('name',)
@@ -25,13 +25,12 @@ class Product(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(upload_to='products/')  # Assuming you have an "products" directory in your MEDIA_ROOT
     description = models.TextField()
-    quantity = models.IntegerField(default=0)
+    stock = models.IntegerField()
     original_price = models.DecimalField(max_digits=10, decimal_places=2)
     selling_price = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.BooleanField(default=True)  # Checkbox for status
-    trending = models.BooleanField(default=False)
     available = models.BooleanField(default=True)# Checkbox for trending
-
+    created = models.DateTimeField(auto_now_add = True)
+    updated = models.DateTimeField(auto_now=True)
     class Meta:
         ordering = ('name',)
         verbose_name = 'product'
@@ -41,4 +40,4 @@ class Product(models.Model):
         return self.name
     
     def get_url(self):
-        return reverse('store:proDetailName', args=[self.category.slug,self.slug])
+        return reverse('store:product_details', args=[self.category.slug,self.slug])
