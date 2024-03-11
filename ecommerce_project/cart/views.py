@@ -57,10 +57,9 @@ def cart_remove(request, product_id):
     cart_item = ItemInCart.objects.filter(product=product, cart=cart).first()
 
     if cart_item.quantity > 1:
-        cart_item.quantity -=1
+        cart_item.quantity -= 1
         cart_item.save()
     else:
-        cart_item.delete()
         cart_item.delete()
     return redirect('cart:cart-details')
 

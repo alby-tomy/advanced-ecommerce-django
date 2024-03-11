@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{%block body %}
+{% block body %}
 {% if not cart_items %}
 <div>
     <div class="text-center">
@@ -110,10 +110,12 @@
             <div class="mx-auto">
                 <a href="{% url 'store:collections' %}" class="btn btn-secondary btn-block custom-btn">Continue
                     Shopping</a>
+                <!-- Add the payment button below -->
+                <a href="{% url 'payment:payment_page' %}" class="btn btn-primary btn-block custom-btn">Proceed to Payment</a>
             </div>
-            {% endif %}
         </div>
     </div>
 </div>
 
+{% endif %}
 {% endblock body%}
