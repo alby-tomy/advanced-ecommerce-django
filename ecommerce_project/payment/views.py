@@ -1,9 +1,21 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages
 from cart.models import Cart, ItemInCart
 from django.core.exceptions import ObjectDoesNotExist
 import razorpay
+import uuid
+import time
 
+def generate_order_id():
+    # Generate a random UUID
+    unique_id = uuid.uuid4()
+    
+    # Get the current timestamp (in milliseconds)
+    timestamp_ms = int(time.time() * 1000)
+    
+    # Combine the timestamp and UUID to create the order ID
+    order_id = f"{timestamp_ms}-{unique_id}"
+    
+    return order_id
 
 def paymenthandler(request):
     if request.method == 'POST':
@@ -16,34 +28,42 @@ def paymenthandler(request):
             total = sum(cart_item.product.selling_price * cart_item.quantity for cart_item in cart_items)
                 
                 
-            # Razorpay credential
-            RAZOR_KEY_ID = 'rzp_test_CBbqyYNgbxjmOz'
-            RAZOR_KEY_SECRET = '6agQGZiWbUixXmBZBcbeY2Co'
+            
             
             # initialize razorpay client
             client = razorpay.Client(
-                auth=(RAZOR_KEY_ID,RAZOR_KEY_SECRET)
+                auth=("rzp_test_CBbqyYNgbxjmOz", "6agQGZiWbUixXmBZBcbeY2Co")
             )
             
-            # create payment order
+            # Create a unique order_id
+            order_id = generate_order_id()
+            
+            # Create payment order
             order_response = client.order.create({
-                'amount':total*100,
+                'amount': (total * 100),  # Amount in paise
                 'currency': 'INR',
-                'payment_capture':'1'
+                'payment_capture': '1',
+                'receipt': str(order_id),
+                'partial_payment': False,
             })
             
-            # extract the order id from the response
-            order_id = order_response['id']
+            # Extract the order ID from the response
+            razorpay_order_id = order_response['id']
             
-            # payment data to pass to the template
+            # Payment data to pass to the template
             payment_data = {
-                'key':RAZOR_KEY_ID,
-                'total':total*100,
-                'order_id':order_id,
-            }             
+                'total': int(total * 100),
+                'order_id': razorpay_order_id,
+            }
+            
+            print(payment_data.key)             
         except ObjectDoesNotExist:
             pass
         
-        return render(request, 'cart.html',{'payment_date':payment_data})
+        return render(request, 'cart.html', {'payment_data': payment_data})
     else:
         return redirect('cart:cart_details')
+
+def successful_payment(request):
+    # This view will handle the redirect to successful.html after successful payment
+    return render(request, 'successful.html')

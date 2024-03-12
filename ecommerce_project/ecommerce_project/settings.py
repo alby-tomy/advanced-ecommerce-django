@@ -104,10 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# payment key
-RAZOR_KEY_ID = 'rzp_test_CDWmNCffnaRtAO'
-RAZOR_KEY_SECRET = 'tRfeTejrnwmLScPp4W291lsp'
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 

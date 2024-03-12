@@ -43,10 +43,12 @@ def cart_details(request, total=0, counter=0, cart_items=None,):
             total += (cart_item.product.selling_price * cart_item.quantity)
             counter += cart_item.quantity
             
+        total_amount = total*100
+            
     except ObjectDoesNotExist:
         pass
     
-    return render(request,'cart.html', dict(cart_items=cart_items, total=total, counter=counter,))
+    return render(request,'cart.html', dict(cart_items=cart_items, total=total, counter=counter, total_amount=total_amount))
 
 
 def cart_remove(request, product_id):
