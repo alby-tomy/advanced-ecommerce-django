@@ -75,6 +75,8 @@
                             <a href="{% url 'cart:cart-remove' product_id=cart_item.product.id %}" class="custom-a"> <!-- Corrected URL pattern -->
                                 <i class="fa-solid fa-minus custom-icon"></i>
                             </a>
+
+
                             &nbsp;
                             <a href="{% url 'cart:cart-delete' cart_item.product.id %}" class="custom-a">
                                 <i class="fa-solid fa-trash custom-icon"></i>
@@ -109,34 +111,7 @@
             </table>
             <div class="mx-auto">
                 <a href="{% url 'store:collections' %}" class="btn btn-secondary btn-block custom-btn">Continue Shopping</a>
-                <!-- Payment form -->
-                {% comment %} <script>
-                    var payment_data = {
-                        'key': '{{ payment_data.Rkey }}',
-                        'total': '{{ payment_data.total }}',
-                        'order_id': '{{ payment_data.order_id }}'
-                    };
-
-                    console.log(payment_data)
-                </script> {% endcomment %}
-                <form id="payment-form" action="{% url 'payment:successful_payment' %}" method="POST">
-                    {% csrf_token %}
-                    <script
-                        src="https://checkout.razorpay.com/v1/checkout.js"
-                        data-key="rzp_test_CBbqyYNgbxjmOz"
-                        data-amount={{ total_amount }}
-                        data-currency="INR"
-                        data-order_id='{{ payment_data.order_id }}'
-                        data-buttontext="Pay with Razorpay"
-                        data-name="Acme Corp"
-                        data-description="A Wild Sheep Chase is the third novel by Japanese author Haruki Murakami"
-                        data-image="https://example.com/your_logo.jpg"
-                        data-prefill.name="Alby Tomy"
-                        data-prefill.email="alby.u.tomy@gmail.com"
-                        data-theme.color="#F37254"
-                    ></script>
-                    <input type="hidden" custom="Hidden Element" name="hidden"/>
-                </form>
+                <a href={% url 'payment:payment-session' %} class="btn btn-secondary btn-block custom-btn">Proceed for Payment</a>
             </div>
                 
             </div>
