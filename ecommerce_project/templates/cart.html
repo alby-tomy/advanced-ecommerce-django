@@ -1,13 +1,15 @@
-{% extends 'layout/main.html' %}
+{% include 'inc/nav.html' %}
+
 
 {% load static %}
 
 {% block body %}
-{% if not cart_items %}
+<section style="margin:2% 10% 2% 10%">
+    {% if not cart_items %}
 <div>
     <div class="text-center">
         <br>
-        <h1 class="text-center my-title">
+        <h1 class="text-center" style="font-family: 'Montserrat', sans-serif;">
             Your Shoping Cart is Empty
         </h1>
         <br>
@@ -21,7 +23,8 @@
 <div>
     <div class="text-center">
         <br>
-        <h1 class="text-center my-title">
+        <h1 class="text-center" style="font-family: 'Montserrat', sans-serif;">
+
             Your Shopping Cart
         </h1>
         <br>
@@ -121,4 +124,5 @@
 </div>
 
 {% endif %}
+</section>
 {% endblock body%}
